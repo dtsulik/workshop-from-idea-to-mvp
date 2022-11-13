@@ -128,7 +128,7 @@ module "lambda_function_process" {
   attach_policy_json            = true
   policy_json                   = data.aws_iam_policy_document.lambda_resource_access.json
   environment_variables = {
-    BUCKET_NAME = module.request_queue.sqs_queue_id
+    BUCKET_NAME = module.s3_bucket.s3_bucket_id
   }
 
   cors = {
