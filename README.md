@@ -5,9 +5,7 @@ Idea is to build microservice framwork that will use several lambdas dynamodb fo
 ## Make a GIF
 
 ### Components
-- Image intake (maybe crawl internet to get random images for random GIF=fun times)
+- Image intake (maybe crawl internet to get random images for random GIF)
 - GIF generator (spit out GIF based on request: by indexes or random. puts it in output s3)
 - Request intake (put request config in dynamodb or maybe SQS, spit out req id)
 - Result getter (take output GIF based on request id)
-
-# workshop-from-idea-to-mvp
