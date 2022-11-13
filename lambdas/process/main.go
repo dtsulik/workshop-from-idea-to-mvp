@@ -9,6 +9,7 @@ import (
 	"image/color/palette"
 	"image/draw"
 	"image/gif"
+	_ "image/jpeg"
 	"io"
 	"log"
 	"os"
@@ -54,7 +55,7 @@ func processMsg(data *gif_request) (*bytes.Buffer, error) {
 			Key:    aws.String("input/" + image_key),
 		})
 		if err != nil {
-			log.Println(err)
+			log.Println("could not get object", err)
 			return nil, err
 		}
 
@@ -97,13 +98,13 @@ func HandleRequest(ctx context.Context, sqsEvent events.SQSEvent) error {
 
 		var data gif_request
 		if err := json.Unmarshal([]byte(msg.Body), &data); err != nil {
-			log.Panicln(err)
+			log.Println(err)
 			continue
 		}
 
 		output, err := processMsg(&data)
 		if err != nil {
-			log.Panicln(err)
+			log.Println(err)
 			continue
 		}
 
