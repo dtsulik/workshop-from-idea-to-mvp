@@ -11,3 +11,7 @@ Idea is to build microservice framwork that will use several lambdas dynamodb fo
 - GIF generator (spit out GIF based on request: by indexes or random. puts it in output s3)
 - Request intake (put request config in dynamodb or maybe SQS, spit out req id)
 - Result getter (take output GIF based on request id)
+
+## Service architecture
+
+<img src="./gif-architecture.drawio.svg" style="background-color:white;">
