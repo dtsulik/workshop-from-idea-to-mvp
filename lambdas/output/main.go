@@ -34,39 +34,32 @@ func main() {
 
 func HandleRequest(ctx context.Context, request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLResponse, error) {
 
-	output, err := client.ListObjectsV2(ctx, &s3.ListObjectsV2Input{
-		Bucket: aws.String(bucket_name),
-	})
+	if len(request.RawPath) == 0 {
+		return events.LambdaFunctionURLResponse{Body: "Please provide object key.", StatusCode: 418}, nil
+	}
 
+	obj, err := client.GetObject(ctx, &s3.GetObjectInput{
+		Bucket: aws.String(bucket_name),
+		Key:    aws.String("output/" + request.RawPath),
+	})
 	if err != nil {
 		log.Fatal(err)
+		return events.LambdaFunctionURLResponse{Body: "Object not found", StatusCode: 400}, nil
 	}
 
-	log.Println("first page results:")
-	var obj_body []byte
+	obj_body := make([]byte, obj.ContentLength)
 	total := 0
-	for _, object := range output.Contents {
-		log.Printf("key=%s size=%d\n", *object.Key, object.Size)
-		obj, err := client.GetObject(ctx, &s3.GetObjectInput{
-			Bucket: aws.String(bucket_name),
-			Key:    object.Key,
-		})
-		if err != nil {
-			log.Fatal(err)
+	for {
+		n, err := obj.Body.Read(obj_body[total:])
+		total += n
+		if err == io.EOF {
+			break
 		}
-		obj_body = make([]byte, obj.ContentLength)
-		for {
-			n, err := obj.Body.Read(obj_body[total:])
-			total += n
-			if err == io.EOF {
-				break
-			}
-		}
-		log.Println("Read total", total, "bytes of", *object.Key, "with length", obj.ContentLength)
 	}
+	log.Println("Read total", total, "bytes of", request.RawPath, "with length", obj.ContentLength)
 
 	return events.LambdaFunctionURLResponse{Body: base64.StdEncoding.EncodeToString(obj_body[:total]),
 			StatusCode: 200, IsBase64Encoded: true,
-			Headers: map[string]string{"Content-Type": "image/png"}},
+			Headers: map[string]string{"Content-Type": "image/gif"}},
 		nil
 }
