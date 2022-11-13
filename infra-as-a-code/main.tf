@@ -5,4 +5,4 @@ provider "aws" {
   }
 }
 
-provider null {}
+provider "null" {}

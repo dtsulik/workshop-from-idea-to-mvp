@@ -72,7 +72,7 @@ module "lambda_function_intake" {
 
 module "lambda_function_output" {
   depends_on = [null_resource.build]
-  source = "terraform-aws-modules/lambda/aws"
+  source     = "terraform-aws-modules/lambda/aws"
 
   function_name                 = "dtsulik-workshop-output"
   description                   = "Output for images"
@@ -94,7 +94,7 @@ module "lambda_function_output" {
 
 module "lambda_function_request" {
   depends_on = [null_resource.build]
-  source = "terraform-aws-modules/lambda/aws"
+  source     = "terraform-aws-modules/lambda/aws"
 
   function_name                 = "dtsulik-workshop-request"
   description                   = "Queue requests for images"
@@ -116,7 +116,7 @@ module "lambda_function_request" {
 
 module "lambda_function_process" {
   depends_on = [null_resource.build]
-  source = "terraform-aws-modules/lambda/aws"
+  source     = "terraform-aws-modules/lambda/aws"
 
   function_name                 = "dtsulik-workshop-process"
   description                   = "Process requests"
@@ -124,6 +124,7 @@ module "lambda_function_process" {
   runtime                       = "go1.x"
   create_lambda_function_url    = true
   source_path                   = "../lambdas/process/"
+  timeout                       = 60
   attach_cloudwatch_logs_policy = true
   attach_policy_json            = true
   policy_json                   = data.aws_iam_policy_document.lambda_resource_access.json
