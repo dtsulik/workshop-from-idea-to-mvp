@@ -93,7 +93,7 @@ func HandleRequest(ctx context.Context, sqsEvent events.SQSEvent) error {
 
 	for _, msg := range sqsEvent.Records {
 
-		log.Panicln("Received request:", msg.Body)
+		log.Println("Received request:", msg.Body)
 
 		var data gif_request
 		if err := json.Unmarshal([]byte(msg.Body), &data); err != nil {
