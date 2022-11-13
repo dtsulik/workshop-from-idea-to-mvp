@@ -38,9 +38,11 @@ func HandleRequest(ctx context.Context, request events.LambdaFunctionURLRequest)
 		return events.LambdaFunctionURLResponse{Body: "Please provide object key.", StatusCode: 418}, nil
 	}
 
+	log.Println("Fetching object from S3 bucket:", bucket_name, " with key: output"+request.RawPath)
+
 	obj, err := client.GetObject(ctx, &s3.GetObjectInput{
 		Bucket: aws.String(bucket_name),
-		Key:    aws.String("output/" + request.RawPath),
+		Key:    aws.String("output" + request.RawPath),
 	})
 	if err != nil {
 		log.Fatal(err)
