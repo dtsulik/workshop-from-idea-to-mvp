@@ -51,11 +51,11 @@ func processMsg(data *gif_request) (*bytes.Buffer, error) {
 	for idx, image_key := range data.Images {
 		obj, err := client.GetObject(context.TODO(), &s3.GetObjectInput{
 			Bucket: aws.String(bucket_name),
-			Key:    aws.String(image_key),
+			Key:    aws.String("input/" + image_key),
 		})
 		if err != nil {
 			log.Println(err)
-			continue
+			return nil, err
 		}
 
 		obj_body := make([]byte, obj.ContentLength)
@@ -69,8 +69,8 @@ func processMsg(data *gif_request) (*bytes.Buffer, error) {
 		}
 		img, _, err := image.Decode(bytes.NewReader(obj_body))
 		if err != nil {
-			log.Println(err)
-			continue
+			log.Println("Failed decode", err)
+			return nil, err
 		}
 
 		palettedImage := image.NewPaletted(img.Bounds(), palette.Plan9)
