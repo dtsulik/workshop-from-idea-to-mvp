@@ -9,3 +9,11 @@ output "intake_url" {
 output "output_url" {
   value = module.lambda_function_output.lambda_function_url
 }
+
+output "request_url" {
+  value = module.lambda_function_request.lambda_function_url
+}
+
+output "sqs_queue_url" {
+  value = module.request_queue.sqs_queue_id
+}

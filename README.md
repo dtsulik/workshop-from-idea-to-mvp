@@ -1,5 +1,7 @@
 # All things aws-serverless-workshop
 
+Workshop brought to you by me, [Tornike](https://github.com/tokotokosd) and [Goga]()
+
 Idea is to build microservice framwork that will use several lambdas dynamodb for config coordination and S3 for storage.
 
 ## Make a GIF
