@@ -7,12 +7,15 @@ import (
 	"encoding/json"
 	"image"
 	"image/color/palette"
-	"image/draw"
+
+	// "image/draw"
 	"image/gif"
 	_ "image/jpeg"
 	"io"
 	"log"
 	"os"
+
+	"golang.org/x/image/draw"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -47,7 +50,10 @@ type gif_request struct {
 
 func processMsg(data *gif_request) (*bytes.Buffer, error) {
 
-	images := make([]*image.Paletted, len(data.Images))
+	var images []*image.Paletted
+
+	var rect image.Rectangle
+	skip := false
 
 	for idx, image_key := range data.Images {
 		obj, err := client.GetObject(context.TODO(), &s3.GetObjectInput{
@@ -74,12 +80,20 @@ func processMsg(data *gif_request) (*bytes.Buffer, error) {
 			return nil, err
 		}
 
-		palettedImage := image.NewPaletted(img.Bounds(), palette.Plan9)
-		draw.Draw(palettedImage, palettedImage.Rect, img, img.Bounds().Min, draw.Over)
+		if !skip {
+			rect = img.Bounds()
+			skip = true
+		}
+
+		palettedImage := image.NewPaletted(rect, palette.Plan9)
+
+		draw.CatmullRom.Scale(palettedImage, palettedImage.Rect, img, img.Bounds(), draw.Over, nil)
 
 		images = append(images, palettedImage)
 		log.Println("Image no", idx, "size:", total)
 	}
+
+	log.Println("Total images to merge", len(images))
 
 	var b bytes.Buffer
 	buf_writer := bufio.NewWriter(&b)
