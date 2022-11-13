@@ -21,4 +21,6 @@ curl -v -X POST \
 ```
 
 ## get doggos
+```bash
 curl -v https://fvkn7bdvbny2bnzsakzbbwqxdy0anwln.lambda-url.us-east-1.on.aws/doggo.gif
+```
