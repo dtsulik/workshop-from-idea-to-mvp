@@ -14,3 +14,8 @@ Idea is to build microservice framwork that will use several lambdas dynamodb fo
 
 ## Service architecture
 ![Arch](./gif-architecture.drawio.svg)
+
+
+## Here is a Doge
+
+![doge](./doge.jpg)
