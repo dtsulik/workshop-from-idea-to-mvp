@@ -43,9 +43,11 @@ func HandleRequest(ctx context.Context, request events.LambdaFunctionURLRequest)
 
 	_, images_check := data["images"]
 	_, output_check := data["output"]
+	_, delays_check := data["delays"]
 
-	if !images_check || !output_check {
-		return events.LambdaFunctionURLResponse{Body: "Expecting \"images\" and \"output\" fields", StatusCode: 400}, nil
+	if !images_check || !output_check || !delays_check {
+		return events.LambdaFunctionURLResponse{Body: "Expecting \"images\", \"delays\" and \"output\" fields",
+			StatusCode: 400}, nil
 	}
 
 	_, err := client.SendMessage(context.TODO(), &sqs.SendMessageInput{
