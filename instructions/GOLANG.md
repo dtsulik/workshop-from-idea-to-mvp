@@ -157,7 +157,17 @@ Now that we have S3 sorted initialized let's PUT the file to S3.
     ...
 ```
 
-If there are no errors we can return a success message.
+If there are no errors we can return a success message. `LambdaFunctionURLResponse` provides us with following:
+```go
+type LambdaFunctionURLResponse struct {
+	StatusCode      int               `json:"statusCode"`
+	Headers         map[string]string `json:"headers"`
+	Body            string            `json:"body"`
+	IsBase64Encoded bool              `json:"isBase64Encoded"`
+	Cookies         []string          `json:"cookies"`
+}
+```
+Currently we need to set `StatusCode` and `Body`. 
 ```go
     ...
     return events.LambdaFunctionURLResponse{Body: "Success", StatusCode: 200}, nil
