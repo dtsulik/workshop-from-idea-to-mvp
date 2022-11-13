@@ -13,5 +13,4 @@ Idea is to build microservice framwork that will use several lambdas dynamodb fo
 - Result getter (take output GIF based on request id)
 
 ## Service architecture
-
-<img src="./gif-architecture.drawio.svg" style="background-color:white;">
+![Arch](./gif-architecture.drawio.svg)
