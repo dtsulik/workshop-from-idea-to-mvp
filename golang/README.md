@@ -9,3 +9,6 @@
 * [Examples](https://docs.aws.amazon.com/code-library/latest/ug/go_2_code_examples.html)
 * [Terraform AWS modules - Lambda](https://github.com/terraform-aws-modules/terraform-aws-lambda)
 * [Terraform AWS modules - SQS](https://github.com/terraform-aws-modules/terraform-aws-sqs)
+* [SQS golang pkg](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/sqs)
+* [S3 golang pkg](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/s3)
+* [DynamoDB golang pkg](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/dynamodb)
