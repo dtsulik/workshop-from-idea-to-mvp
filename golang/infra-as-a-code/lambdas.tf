@@ -41,6 +41,9 @@ locals {
 }
 
 resource "null_resource" "build" {
+  triggers = {
+    dir_sha1 = sha1(join("", [for f in fileset("../lambdas/", "**"): filesha1(join("", ["../lambdas/",f]))]))
+  }
   for_each = toset(local.build_paths)
   provisioner "local-exec" {
     command = "cd ${each.key} && rm -f main && GOOS=linux go build main.go"
