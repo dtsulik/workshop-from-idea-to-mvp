@@ -42,3 +42,12 @@ data "aws_iam_policy_document" "public" {
     ]
   }
 }
+
+resource "aws_s3_bucket_object" "html_upload" {
+    for_each = fileset("html/", "*")
+    bucket = aws_s3_bucket.python_bucket.id
+    key = each.value
+    source = "html/${each.value}"
+    content_type = "text/html"
+    etag = filemd5("html/${each.value}")
+}
