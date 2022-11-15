@@ -1,0 +1,73 @@
+<!-- file upload simple page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+</head>
+<body>
+    <form action="${upload_address}" method="post" enctype="multipart/form-data">
+        <input type="file" id="fileuploader" name="file" accept="image/*">
+        <button type="submit" id="fileuploaderb" name="submit">UPLOAD</button>
+    </form>
+    <!-- receive image url and name from api and display in table by javascript -->
+    <table id="table">
+        <tr>
+            <th>Image Name</th>
+            <th>Image URL</th>
+            <th>Image Upload Date</th>
+        </tr>
+    </table>
+    <script>
+        // get image url and name from api
+        fetch('${api_address}')
+        .then(response => response.json())
+        .then(data => {
+            // display image url and name in table
+            for (let i = 0; i < data.length; i++) {
+                let table = document.getElementById("table");
+                let row = table.insertRow(i + 1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                cell1.innerHTML = data[i].Key;
+                let url = "${bucket_url}" + data[i].Key.split("/")[1];
+                // display image in second column
+                cell2.innerHTML = "<img src='" + url + "' width='100' height='100'>";
+                let time_in_string = data[i].Key.split("/")[1].split(".")[0];
+                let time_int = parseInt(time_in_string);
+                let time = new Date(time_int);
+                cell3.innerHTML = time;
+
+            }
+        })
+
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+
+        async function Main(a) {
+            a.preventDefault();
+            const file = document.querySelector('#fileuploader').files[0];
+            // send image to api
+            const response = await fetch('${upload_address}', {
+                method: 'POST',
+                body: await toBase64(file),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            location.reload();
+        }
+
+        let buttonupload = document.querySelector('#fileuploaderb');
+        buttonupload.addEventListener('click', Main);
+
+    </script>
+</body>
+</html>
