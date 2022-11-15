@@ -19,3 +19,9 @@ resource "aws_lambda_function" "test_lambda" {
     }
   }
 }
+
+
+resource "aws_lambda_function_url" "lambda_url" {
+  function_name      = aws_lambda_function.test_lambda.function_name
+  authorization_type = "NONE"
+}
