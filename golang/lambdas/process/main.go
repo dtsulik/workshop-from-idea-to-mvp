@@ -6,15 +6,14 @@ import (
 	"context"
 	"encoding/json"
 	"image"
-	"image/color/palette"
 
-	// "image/draw"
 	"image/gif"
 	_ "image/jpeg"
 	"io"
 	"log"
 	"os"
 
+	"github.com/andybons/gogif"
 	"golang.org/x/image/draw"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -85,7 +84,9 @@ func processMsg(data *gif_request) (*bytes.Buffer, error) {
 			skip = true
 		}
 
-		palettedImage := image.NewPaletted(rect, palette.Plan9)
+		palettedImage := image.NewPaletted(rect, nil)
+		quantizer := gogif.MedianCutQuantizer{NumColor: 64}
+		quantizer.Quantize(palettedImage, rect, img, image.Point{0, 0})
 
 		draw.CatmullRom.Scale(palettedImage, palettedImage.Rect, img, img.Bounds(), draw.Over, nil)
 

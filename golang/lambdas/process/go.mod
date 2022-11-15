@@ -3,6 +3,7 @@ module process
 go 1.19
 
 require (
+	github.com/andybons/gogif v0.0.0-20140526152223-16d573594812
 	github.com/aws/aws-lambda-go v1.34.1
 	github.com/aws/aws-sdk-go-v2 v1.17.1
 	github.com/aws/aws-sdk-go-v2/config v1.18.0
