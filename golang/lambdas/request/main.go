@@ -30,6 +30,10 @@ func main() {
 	lambda.Start(HandleRequest)
 }
 
+type response struct {
+	ReqId string `json:"req_id"`
+}
+
 func HandleRequest(ctx context.Context, request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLResponse, error) {
 
 	if len(request.Body) == 0 {
@@ -50,7 +54,7 @@ func HandleRequest(ctx context.Context, request events.LambdaFunctionURLRequest)
 			StatusCode: 400}, nil
 	}
 
-	_, err := client.SendMessage(context.TODO(), &sqs.SendMessageInput{
+	send_response, err := client.SendMessage(context.TODO(), &sqs.SendMessageInput{
 		QueueUrl:    aws.String(queue_url),
 		MessageBody: aws.String(request.Body),
 	})
@@ -60,5 +64,13 @@ func HandleRequest(ctx context.Context, request events.LambdaFunctionURLRequest)
 		return events.LambdaFunctionURLResponse{Body: "Error submitting request", StatusCode: 500}, nil
 	}
 
-	return events.LambdaFunctionURLResponse{Body: "OK", StatusCode: 200}, nil
+	resp := response{ReqId: *send_response.MessageId}
+	resp_json, err := json.Marshal(resp)
+	if err != nil {
+		log.Println(err)
+		// fall back to caveman methods
+		resp_json = []byte("{\"req_id\": \"" + *send_response.MessageId + "\"}")
+	}
+
+	return events.LambdaFunctionURLResponse{Body: string(resp_json), StatusCode: 200}, nil
 }

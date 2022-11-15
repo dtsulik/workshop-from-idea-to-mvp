@@ -41,6 +41,7 @@ locals {
 }
 
 resource "null_resource" "build" {
+  # this can be improved, right now this rebuilds ALL lambdas even if only one changed
   triggers = {
     dir_sha1 = sha1(join("", [for f in fileset("../lambdas/", "**"): filesha1(join("", ["../lambdas/",f]))]))
   }
