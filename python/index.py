@@ -9,11 +9,10 @@ def lambda_handler(event, context):
     file_names = ["index.html", "error.html"]
     s3_paths = []
     for file_name in file_names:
-        lambda_path = "/tmp/" + file_name
-        s3_paths.append ("output/" + file_name)
-        os.system('echo testing... >'+lambda_path)
+        lambda_path = file_name
+        s3_paths.append (file_name)
         s3 = boto3.resource("s3")
-        s3.meta.client.upload_file(lambda_path, bucket_name, file_name)
+        s3.meta.client.upload_file(lambda_path, bucket_name, file_name, ExtraArgs={'ContentType': "text/html"})
 
     return {
         'statusCode': 200,
