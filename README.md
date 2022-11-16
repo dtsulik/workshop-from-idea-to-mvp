@@ -1,6 +1,6 @@
 # All things aws-serverless-workshop
 
-Workshop brought to you by me, [Tornike](https://github.com/tokotokosd) and [Goga]()
+Workshop brought to you by me, [Tornike](https://github.com/tokotokosd) and [Goga](https://github.com/Goga364)
 
 Idea is to build microservice framwork that will use several lambdas, dynamodb for config coordination and S3 for storage.
 
@@ -12,7 +12,7 @@ Not all components are mandatory, each adds a layer of complexity.
 - Request intake (put request config in dynamodb or maybe SQS, spit out req id)
 - Result getter (take output GIF based on request id)
 
-# References
+# Resources
 - [Localstack](https://localstack.cloud/)
 
 ## Here is a Doge
