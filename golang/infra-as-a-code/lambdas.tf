@@ -56,7 +56,7 @@ module "lambda_function_intake" {
 
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name                 = "dtsulik-workshop-intake"
+  function_name                 = "workshop-intake"
   description                   = "Intake for images"
   handler                       = "main"
   runtime                       = "go1.x"
@@ -78,7 +78,7 @@ module "lambda_function_output" {
   depends_on = [null_resource.build]
   source     = "terraform-aws-modules/lambda/aws"
 
-  function_name                 = "dtsulik-workshop-output"
+  function_name                 = "workshop-output"
   description                   = "Output for images"
   handler                       = "main"
   runtime                       = "go1.x"
@@ -100,7 +100,7 @@ module "lambda_function_request" {
   depends_on = [null_resource.build]
   source     = "terraform-aws-modules/lambda/aws"
 
-  function_name                 = "dtsulik-workshop-request"
+  function_name                 = "workshop-request"
   description                   = "Queue requests for images"
   handler                       = "main"
   runtime                       = "go1.x"
@@ -122,7 +122,7 @@ module "lambda_function_process" {
   depends_on = [null_resource.build]
   source     = "terraform-aws-modules/lambda/aws"
 
-  function_name                 = "dtsulik-workshop-process"
+  function_name                 = "workshop-process"
   description                   = "Process requests"
   handler                       = "main"
   runtime                       = "go1.x"

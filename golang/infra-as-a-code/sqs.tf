@@ -1,5 +1,5 @@
 module "request_queue" {
   source                     = "terraform-aws-modules/sqs/aws"
-  name                       = "dtsulik-workshop-request-queue"
+  name                       = "workshop-request-queue"
   visibility_timeout_seconds = 60
 }

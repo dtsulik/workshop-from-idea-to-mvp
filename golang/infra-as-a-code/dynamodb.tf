@@ -1,6 +1,6 @@
 # module "dynamodb_table" {
 #   source = "terraform-aws-modules/dynamodb-table/aws"
-#   name = "dtsulik-workshop-dynamodb-table"
+#   name = "workshop-dynamodb-table"
 #   hash_key = "id"
 #   attributes = [
 #     {
