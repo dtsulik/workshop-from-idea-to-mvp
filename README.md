@@ -12,7 +12,7 @@ Not all components are mandatory, each adds a layer of complexity.
 - Request intake (put request config in dynamodb or maybe SQS, spit out req id)
 - Result getter (take output GIF based on request id)
 
-# References
+# Resources
 - [Localstack](https://localstack.cloud/)
 
 ## Here is a Doge
